@@ -1,17 +1,17 @@
 const $botonBuscarPokemon = document.querySelector("#buscar-pokemon")
-$botonBuscarPokemon.onclick = consultarPokemonBuscado
+$botonBuscarPokemon.onclick = obtenerNombrePokemonBuscado
 let paginaActual = 1
 let ultimaPagina = 0
 
 
-function consultarPokemonBuscado() {
+function obtenerNombrePokemonBuscado() {
     const nombrePokemonBuscado = document.querySelector("#form1").value.toLowerCase().trim()
-    url = `https://pokeapi.co/api/v2/pokemon/${nombrePokemonBuscado}`
-    consultarApi(url)
+    consultarPokemon(nombrePokemonBuscado)
 }
-function consultarPokemonClickeado(e) {
-    const url = e.target.id
-    consultarApi(url)
+function obtenerNombrePokemonClickeado(e) {
+    const nombrePokemon = e.target.id
+    consultarPokemon(nombrePokemon)
+    
 }
 
 function mostrarPokemon(data) {
@@ -29,7 +29,10 @@ function mostrarPokemon(data) {
 
 function consultarPokemones(offset = 0, limit = 20) {
     const URL = `https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`
-    consultarApi(URL)
+    fetch(URL)
+    .then(response => response.json())
+    .then(data =>  mostrarListadoPokemon(data))
+   
 }
 
 function mostrarListadoPokemon(data) {
@@ -48,8 +51,8 @@ function crearElementoPokemonEnListado(pokemon) {
     $pokemonEnLista.type = "button"
     $pokemonEnLista.className = "list-group-item list-group-item-action"
     $pokemonEnLista.innerText = pokemon.name
-    $pokemonEnLista.id = pokemon.url
-    $pokemonEnLista.onclick = consultarPokemonClickeado
+    $pokemonEnLista.id = pokemon.name
+    $pokemonEnLista.onclick = obtenerNombrePokemonClickeado
     $listadoPokemones.appendChild($pokemonEnLista)
 
 }
@@ -58,7 +61,7 @@ function crearPaginacion(data) {
     const cantidadPokemonesPorPagina = data.results.length
     const cantidadPaginas = Number(data.count) / cantidadPokemonesPorPagina
     ultimaPagina = cantidadPaginas
-    for (i = 0; i <= cantidadPaginas; i++) {
+    for (i = 1; i <= cantidadPaginas; i++) {
         crearBotonPagina(i)
     }
     const $botonAnterior = document.querySelector("#anterior")
@@ -93,21 +96,14 @@ function cambiarPagina(e) {
     consultarPokemones(offset)
 }
 
-function consultarApi(url) {
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.results) {
-                mostrarListadoPokemon(data)
-            }
-            else {
-                mostrarPokemon(data)
-            }
-        })
-        .catch(error => console.log(error))
-
-}
 
 consultarPokemones()
-consultarApi("https://pokeapi.co/api/v2/pokemon/ditto")
+consultarPokemon("ditto")
+
+function consultarPokemon(nombrePokemon) {
+    url = `https://pokeapi.co/api/v2/pokemon/${nombrePokemon}`
+    fetch(url)
+    .then(response => response.json())
+    .then(data => mostrarPokemon(data))
+}
 
