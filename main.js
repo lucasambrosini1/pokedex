@@ -9,8 +9,8 @@ function obtenerNombrePokemonBuscado() {
     consultarPokemon(nombrePokemonBuscado)
 }
 function obtenerNombrePokemonClickeado(e) {
-    const nombrePokemon = e.target.id
-    consultarPokemon(nombrePokemon)
+    const nombrePokemonClickeado = e.target.id
+    consultarPokemon(nombrePokemonClickeado)
     
 }
 
@@ -101,7 +101,7 @@ consultarPokemones()
 consultarPokemon("ditto")
 
 function consultarPokemon(nombrePokemon) {
-    url = `https://pokeapi.co/api/v2/pokemon/${nombrePokemon}`
+    const url = `https://pokeapi.co/api/v2/pokemon/${nombrePokemon}`
     fetch(url)
     .then(response => response.json())
     .then(data => mostrarPokemon(data))
