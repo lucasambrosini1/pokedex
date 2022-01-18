@@ -1,22 +1,22 @@
 /* eslint-disable func-names */
 /* eslint linebreak-style: ["error", "windows"] */
-export function mostrarListadoPokemon(data) {
+export function mostrarListadoPokemon(data, callbackSeleccion) {
   const $listadoPokemones = document.querySelector('#listado-pokemones');
   $listadoPokemones.innerHTML = '';
   crearPaginacion(data);
   data.results.forEach((pokemon) => {
-    crearElementoPokemonEnListado(pokemon);
+    crearElementoPokemonEnListado(pokemon, callbackSeleccion);
   });
 }
 
-function crearElementoPokemonEnListado(pokemon) {
+function crearElementoPokemonEnListado(pokemon, callbackSeleccion) {
   const $listadoPokemones = document.querySelector('#listado-pokemones');
   const $pokemonEnLista = document.createElement('button');
   $pokemonEnLista.type = 'button';
   $pokemonEnLista.className = 'list-group-item list-group-item-action';
   $pokemonEnLista.innerText = pokemon.name;
   $pokemonEnLista.id = pokemon.name;
-  $pokemonEnLista.onclick = seleccionarPokemon;
+  $pokemonEnLista.onclick = callbackSeleccion;
   $listadoPokemones.appendChild($pokemonEnLista);
 }
 
@@ -55,12 +55,15 @@ function cambiarPagina(e) {
   consultarListadoPokemones(offset);
 }
 
-const $botonBuscarPokemon = document.querySelector('#buscar-pokemon');
-$botonBuscarPokemon.onclick = obtenerNombrePokemonBuscado;
 let paginaActual = 1;
 let ultimaPagina = 0;
 
-function obtenerNombrePokemonBuscado() {
+export function configurarBotonBuscar(callbackBusqueda) {
+  const $botonBuscarPokemon = document.querySelector('#buscar-pokemon');
+  $botonBuscarPokemon.onclick = callbackBusqueda;
+}
+
+export function obtenerNombrePokemonBuscado() {
   const nombrePokemonBuscado = document.querySelector('#input-pokemon').value.toLowerCase().trim();
   return nombrePokemonBuscado;
 }
