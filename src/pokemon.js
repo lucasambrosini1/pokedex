@@ -1,6 +1,3 @@
-/* eslint-disable func-names */
-/* eslint linebreak-style: ["error", "windows"] */
-
 export async function consultarListadoPokemones(offset = 0, limit = 20) {
   const url = `https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`;
   const respuesta = await fetch(url);

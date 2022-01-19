@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-/* eslint linebreak-style: ["error", "windows"] */
 export function mostrarListadoPokemon(data, callbackSeleccion) {
   const $listadoPokemones = document.querySelector('#listado-pokemones');
   $listadoPokemones.innerHTML = '';
