@@ -3,7 +3,6 @@
 export function mostrarListadoPokemon(data, callbackSeleccion) {
   const $listadoPokemones = document.querySelector('#listado-pokemones');
   $listadoPokemones.innerHTML = '';
-  crearPaginacion(data);
   data.results.forEach((pokemon) => {
     crearElementoPokemonEnListado(pokemon, callbackSeleccion);
   });
@@ -15,48 +14,44 @@ function crearElementoPokemonEnListado(pokemon, callbackSeleccion) {
   $pokemonEnLista.type = 'button';
   $pokemonEnLista.className = 'list-group-item list-group-item-action';
   $pokemonEnLista.innerText = pokemon.name;
-  $pokemonEnLista.id = pokemon.name;
+  $pokemonEnLista.dataset.nombre = pokemon.name;
   $pokemonEnLista.onclick = callbackSeleccion;
   $listadoPokemones.appendChild($pokemonEnLista);
 }
 
-function crearPaginacion(data) {
+export function crearPaginacion(data) {
   const cantidadPokemonesPorPagina = data.results.length;
   const cantidadPaginas = Number(data.count) / cantidadPokemonesPorPagina;
-  ultimaPagina = cantidadPaginas;
+  const $botonAnterior = document.createElement('li');
+  $botonAnterior.className = 'page-item';
+  $botonAnterior.innerHTML = '<a class="page-link" href="#" data-pagina="anterior">Anterior</a>';
+  const $botonSiguiente = document.createElement('li');
+  $botonSiguiente.className = 'page-item';
+  $botonSiguiente.innerHTML = '<a class="page-link" href="#" data-pagina="siguiente">Siguiente</a>';
+  const $paginacion = document.querySelector('#paginacion');
+  $paginacion.appendChild($botonAnterior);
+  $paginacion.appendChild($botonSiguiente);
+
   for (let i = 1; i <= cantidadPaginas; i++) {
     crearBotonPagina(i);
   }
-  const $botonAnterior = document.querySelector('#anterior');
-  $botonAnterior.onclick = cambiarPagina;
-  const $botonSiguiente = document.querySelector('#siguiente');
-  $botonSiguiente.onclick = cambiarPagina;
 }
 
 function crearBotonPagina(i) {
   const $botonPagina = document.createElement('li');
   const $paginacion = document.querySelector('#paginacion');
   $botonPagina.className = 'page-item';
-  $botonPagina.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-  $botonPagina.onclick = cambiarPagina;
+  $botonPagina.innerHTML = `<a class="page-link" href="#" data-pagina="${i}">${i}</a>`;
   $paginacion.appendChild($botonPagina);
 }
-function cambiarPagina(e) {
-  if (e.target.innerText === 'Siguiente') {
-    if (paginaActual !== ultimaPagina) {
-      paginaActual++;
-    }
-  } else if (e.target.innerText === 'Anterior') {
-    if (paginaActual !== 1) { paginaActual--; }
-  } else {
-    paginaActual = e.target.innerText;
-  }
-  const offset = paginaActual * 20 - 20;
-  consultarListadoPokemones(offset);
-}
 
-let paginaActual = 1;
-let ultimaPagina = 0;
+export function configurarBotonPaginado(callbackPaginado) {
+  const $botonesPaginado = document.querySelectorAll('.page-link');
+  console.log($botonesPaginado);
+  $botonesPaginado.forEach((boton) => {
+    boton.onclick = callbackPaginado;
+  });
+}
 
 export function configurarBotonBuscar(callbackBusqueda) {
   const $botonBuscarPokemon = document.querySelector('#buscar-pokemon');
@@ -76,8 +71,21 @@ export function obtenerNombrePokemonClickeado() {
   return undefined;
 }
 
-function seleccionarPokemon(e) {
-  e.target.className = '.list-group-item.active';
+export function seleccionarPokemon(e) {
+  const $itemActivo = document.querySelector('.btn-primary');
+  if ($itemActivo !== e.target) {
+    e.target.className = 'btn-primary';
+    $itemActivo.className = 'list-group-item list-group-item-action';
+  }
+}
+
+export function seleccionarPagina(e) {
+  console.log(e.target)
+  const $itemActivo = document.querySelector('.link-primary');
+  if ($itemActivo !== e.target) {
+    e.target.className = 'link-primary';
+    $itemActivo.className = 'page-link';
+  }
 }
 
 export function mostrarPokemon(data) {
