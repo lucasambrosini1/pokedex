@@ -51,7 +51,6 @@ export function configurarBotonPaginado(callbackPaginado) {
     boton.onclick = callbackPaginado;
   });
 }
-
 export function configurarBotonBuscar(callbackBusqueda) {
   const $botonBuscarPokemon = document.querySelector('#buscar-pokemon');
   $botonBuscarPokemon.onclick = callbackBusqueda;
@@ -60,14 +59,6 @@ export function configurarBotonBuscar(callbackBusqueda) {
 export function obtenerNombrePokemonBuscado() {
   const nombrePokemonBuscado = document.querySelector('#input-pokemon').value.toLowerCase().trim();
   return nombrePokemonBuscado;
-}
-export function obtenerNombrePokemonClickeado() {
-  const $pokemonSeleccionado = document.querySelector('.list-group-item.active');
-  if ($pokemonSeleccionado) {
-    return $pokemonSeleccionado.innerText;
-  }
-
-  return undefined;
 }
 
 export function seleccionarPokemon(e) {

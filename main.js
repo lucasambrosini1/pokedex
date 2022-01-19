@@ -8,7 +8,7 @@ import {
   configurarBotonPaginado,
   crearPaginacion,
   seleccionarPokemon,
-  seleccionarPagina
+  seleccionarPagina,
 } from './ui.js';
 import { consultarListadoPokemones, consultarPokemon } from './pokemon.js';
 
@@ -39,7 +39,7 @@ async function cambiarPagina(e) {
   }
   const offset = paginaActual * 20 - 20;
   mostrarListadoPokemon(await consultarListadoPokemones(offset), cambiarAPokemonClickeado);
-  seleccionarPagina(e)
+  seleccionarPagina(e);
 }
 
 async function inicializar() {
