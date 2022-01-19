@@ -47,7 +47,6 @@ function crearBotonPagina(i) {
 
 export function configurarBotonPaginado(callbackPaginado) {
   const $botonesPaginado = document.querySelectorAll('.page-link');
-  console.log($botonesPaginado);
   $botonesPaginado.forEach((boton) => {
     boton.onclick = callbackPaginado;
   });
@@ -73,17 +72,16 @@ export function obtenerNombrePokemonClickeado() {
 
 export function seleccionarPokemon(e) {
   const $itemActivo = document.querySelector('.btn-primary');
-  if ($itemActivo !== e.target) {
-    e.target.className = 'btn-primary';
+  e.target.className = 'btn-primary';
+  if ($itemActivo) {
     $itemActivo.className = 'list-group-item list-group-item-action';
   }
 }
 
 export function seleccionarPagina(e) {
-  console.log(e.target)
   const $itemActivo = document.querySelector('.link-primary');
-  if ($itemActivo !== e.target) {
-    e.target.className = 'link-primary';
+  e.target.className = 'link-primary';
+  if ($itemActivo) {
     $itemActivo.className = 'page-link';
   }
 }

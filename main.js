@@ -18,8 +18,8 @@ let ultimaPagina = 0;
 async function cambiarAPokemonClickeado(e) {
   const nombrePokemon = e.target.dataset.nombre;
   const pokemonData = await consultarPokemon(nombrePokemon);
-  seleccionarPokemon(e);
   mostrarPokemon(pokemonData);
+  seleccionarPokemon(e);
 }
 
 async function cambiarAPokemonBuscado() {
@@ -28,7 +28,6 @@ async function cambiarAPokemonBuscado() {
 }
 
 async function cambiarPagina(e) {
-  seleccionarPagina(e)
   if (e.target.dataset.pagina === 'siguiente') {
     if (paginaActual !== ultimaPagina) {
       paginaActual++;
@@ -40,6 +39,7 @@ async function cambiarPagina(e) {
   }
   const offset = paginaActual * 20 - 20;
   mostrarListadoPokemon(await consultarListadoPokemones(offset), cambiarAPokemonClickeado);
+  seleccionarPagina(e)
 }
 
 async function inicializar() {
